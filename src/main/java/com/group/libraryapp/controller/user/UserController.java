@@ -40,13 +40,13 @@ public class UserController {
                 return new UserResponse(id, name, age);
             }
         });
-
     }
 
     @PutMapping("/user")
     public void updateUser(@RequestBody UserUpdateRequest request) {
         String readSql = "select * from user where id=?";
 
+        // (rs, rowNum) -> 0 결과가 있다면 0으로 출력, id의 ?에 넣을 것: request.getId()
         boolean isUserNotExist = jdbcTemplate.query(readSql, (rs, rowNum) -> 0, request.getId()).isEmpty();
         if (isUserNotExist) {
             throw new IllegalArgumentException();
